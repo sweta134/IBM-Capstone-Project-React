@@ -1,0 +1,14 @@
+#popup-2 {
+    padding: 20px;
+    max-width: 450px;
+}
+
+.rating {
+    display: flex;
+    gap: 5px;
+}
+
+.review-form{
+    margin: 25px;
+    border-radius: 10px;
+}
