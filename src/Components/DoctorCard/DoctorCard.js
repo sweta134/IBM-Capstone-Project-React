@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './DoctorCard.css';
-import AppointmentFormIC from '../AppointmentFormIC/AppointmentFormIC'
 import { v4 as uuidv4 } from 'uuid';
+import AppointmentFormIC from '../InstantConsultationBooking/InstantConsultationBooking/AppointmentFormIC/AppointmentFormIC';
 
 
 const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
