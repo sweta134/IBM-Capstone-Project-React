@@ -39,12 +39,12 @@ export default function Navbar() {
           </li>
 
           <li className="link">
-            <a href="../Sign_Up//Sign_Up.html">
+            <a href="../Sign_Up">
               <button className="btn1">Sign Up</button>
             </a>
           </li>
           <li className="link">
-            <a href="../Login/Login.html">
+            <a href="../Login">
               <button className="btn1">Login</button>
             </a>
           </li>
