@@ -8,6 +8,8 @@ import Sign_Up from './Components/Sign_Up/Sign_Up';
 import Login from './Components/Login/Login';
 import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultationBooking/InstantConsultation';
 import Notification from './Components/Notification/Notification';
+import ReviewForm from './Components/ReviewForm/ReviewForm';
+
  
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
+        <Route path="/ReviewForm" element={<ReviewForm/>}/>
           <Route path="/" element={<Landing_Page />} />
           <Route path="/signup" element={<Sign_Up />} />
           <Route path="/login" element={<Login />} />

@@ -1,7 +1,7 @@
 import {Table, Button} from 'react-bootstrap';
 import "reactjs-popup/dist/index.css";
-import GiveReviews from './GiveReviews';
 import React, { useState } from 'react';
+import GiveReviews from './GiveReview';
 
 export default function ReviewForm() {
   const [reviews, setReviews] = useState("")
