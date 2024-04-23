@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './InstantConsultation.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import FindDoctorSearch from '../../FindDoctorSearch/FindDoctorSearch';
-import DoctorCardIC from './DoctorCardIC/DoctorCardIC';
+import DoctorCard from '../../DoctorCard/DoctorCard';
+
 
 const InstantConsultation = () => {
     const [searchParams] = useSearchParams();
@@ -68,7 +69,7 @@ const InstantConsultation = () => {
                     <h2>{filteredDoctors.length} doctors are available {searchParams.get('location')}</h2>
                     <h3>Book appointments with minimum wait-time & verified doctor details</h3>
                     {filteredDoctors.length > 0 ? (
-                    filteredDoctors.map(doctor => <DoctorCardIC className="doctorcard" {...doctor} key={doctor.name} />)
+                    filteredDoctors.map(doctor => <DoctorCard className="doctorcard" {...doctor} key={doctor.name} />)
                     ) : (
                     <p>No doctors found.</p>
                     )}
