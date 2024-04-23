@@ -1,0 +1,10 @@
+.appointment-card {
+    padding: 1.5rem;
+    background-color: #3685fbeb;
+    color: #fff;
+    z-index: 777;
+    position: fixed;
+    bottom: 0;
+    right: 2%;
+    border-radius: 5px 5px 0 0;
+}

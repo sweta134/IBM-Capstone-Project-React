@@ -5,114 +5,143 @@ import '../Login/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config';
 
-const Login = () => {
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (sessionStorage.getItem('auth-token')) {
-      navigate('/');
-    }
-  }, []);
-
-  const login = async (e) => {
-    e.preventDefault();
-    const res = await fetch(`${API_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        // name: name,
-        email: email,
-        password: password,
-      }),
-    });
-
-    const json = await res.json();
-    if (json.authtoken) {
-      sessionStorage.setItem('auth-token', json.authtoken);
-
-      sessionStorage.setItem('email', email);
-
-      navigate('/');
-      window.location.reload();
-    } else {
-      if (json.errors) {
-        for (const error of json.errors) {
-          alert(error.msg);
-        }
-      } else {
-        alert(json.error);
+export default function Login() {
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [showerr, setShowerr] = useState("");
+  
+    const validateEmail = function (email) {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      return emailPattern.test(email);
+    };
+    const togglePasswordVisibility = function () {
+      setShowPassword(!showPassword);
+    };
+  
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (sessionStorage.getItem("auth-token")) {
+        navigate("/");
       }
-    }
-  };
-
-  return (
-    <div>
-      <div className="container">
+      // eslint-disable-next-line
+    }, []);
+  
+    const login = async () => {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+  
+      const json = await res.json();
+      if (json.authtoken) {
+        sessionStorage.setItem("auth-token", json.authtoken);
+  
+        sessionStorage.setItem("email", email);
+        navigate("/");
+        window.location.reload();
+      } else {
+        if (json.errors) {
+          for (const error of json.errors) {
+            setShowerr(error.msg);
+          }
+        } else {
+          setShowerr(json.error);
+        }
+      }
+    };
+  
+    const submitHandler = function (e) {
+      e.preventDefault();
+      if (!validateEmail(email)) {
+        setShowerr("Please Enter a Valid Email");
+        return;
+      }
+      login();
+    };
+  
+    return (
+      <div className="login-container">
         <div className="login-grid">
           <div className="login-text">
             <h2>Login</h2>
           </div>
-          <div className="login-text">
-            Are you a new member?{' '}
+          <div className="login-text1">
+            Are you a new member?{" "}
             <span>
-              <Link to="/signup" style={{ color: '#2190FF' }}>
-                {' '}
+              <Link to="/signup" style={{ color: "#2190ff" }}>
                 Sign Up Here
               </Link>
             </span>
           </div>
           <br />
           <div className="login-form">
-            <form onSubmit={login}>
-              <div className="form-group">
+            <form onSubmit={submitHandler}>
+              <div className="login-form-group">
                 <label htmlFor="email">Email</label>
                 <input
-                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   name="email"
                   id="email"
-                  className="form-control"
+                  className="login-form-control"
                   placeholder="Enter your email"
                   aria-describedby="helpId"
+                  required
                 />
+                {showerr && <div className="err">{showerr}</div>}
               </div>
-              <div className="form-group">
+              <div className="login-form-group">
                 <label htmlFor="password">Password</label>
-                <input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  type="password"
-                  name="password"
-                  id="password"
-                  className="form-control"
-                  placeholder="Enter your password"
-                  aria-describedby="helpId"
-                />
+                <div className="password-input-wrapper">
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    minLength="8"
+                    required
+                    className="login-form-control"
+                    placeholder="Enter your password"
+                    aria-describedby="helpId"
+                  />
+                  <span
+                    className="password-icon"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <i className="fa fa-eye"></i>
+                    ) : (
+                      <i className="fa fa-eye-slash"></i>
+                    )}
+                  </span>
+                </div>
               </div>
-              <div className="btn-group">
-                <button
-                  type="submit"
-                  className="btn btn-primary mb-2 mr-1 waves-effect waves-light"
-                >
+  
+              <div className="btn-subgroup">
+                <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">
                   Login
                 </button>
-                <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light">Reset</button>
+              </div>
+              
+              <div className="btn-subgroup">
+                <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light">
+                  Reset
+                </button>
               </div>
               <br />
-              <div className="login-text">
-                Forgot Password?
-              </div>
+              <div className="login-text">Forgot Password?</div>
             </form>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default Login;
+    );
+  }
